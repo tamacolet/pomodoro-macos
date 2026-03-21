@@ -1,0 +1,8 @@
+.DS_Store
+build/
+DerivedData/
+*.app
+*.dmg
+*.dSYM
+*.xcuserstate
+xcuserdata/
