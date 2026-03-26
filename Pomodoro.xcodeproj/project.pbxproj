@@ -25,6 +25,7 @@
 		AA000016 /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB000016; };
 		AA000017 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB000017; };
 		AA000018 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB000018; };
+		AA000019 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = AB000020; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 		AB000017 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB000018 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB000019 /* Pomodoro.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pomodoro.entitlements; sourceTree = "<group>"; };
+		AB000020 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		AC000001 /* Pomodoro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pomodoro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -139,6 +141,7 @@
 			children = (
 				AB000018 /* Assets.xcassets */,
 				AB000019 /* Pomodoro.entitlements */,
+				AB000020 /* Sounds */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -203,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA000018 /* Assets.xcassets in Resources */,
+				AA000019 /* Sounds in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

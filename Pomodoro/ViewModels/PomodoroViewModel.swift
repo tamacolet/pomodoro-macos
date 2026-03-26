@@ -176,7 +176,7 @@ final class PomodoroViewModel: ObservableObject {
                 NotificationManager.shared.sendSessionCompleteNotification(sessionType: .focus)
             }
             if settings.playSoundOnComplete {
-                SoundManager.shared.playCompletionSound()
+                SoundManager.shared.playCompletionSound(for: .focus, settings: settings)
             }
 
             // 次のセッションを決定
@@ -192,7 +192,7 @@ final class PomodoroViewModel: ObservableObject {
                 NotificationManager.shared.sendSessionCompleteNotification(sessionType: currentSession)
             }
             if settings.playSoundOnComplete {
-                SoundManager.shared.playCompletionSound()
+                SoundManager.shared.playCompletionSound(for: currentSession, settings: settings)
             }
             currentSession = .focus
         }

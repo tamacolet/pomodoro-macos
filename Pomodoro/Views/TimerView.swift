@@ -70,6 +70,7 @@ struct TimerView: View {
                     .foregroundStyle(.secondary)
             }
             .buttonStyle(.plain)
+            .focusEffectDisabled()
             .keyboardShortcut(",", modifiers: .command)
             .accessibilityLabel("設定")
             .help("設定 (⌘,)")
