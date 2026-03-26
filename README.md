@@ -8,6 +8,13 @@ Minimal native Pomodoro timer for macOS built with SwiftUI.
 - Xcode project
 - Packaging script for local DMG builds
 - GitHub Release download for the distributable `.dmg`
+- Built-in notification sound presets under `Pomodoro/Resources/Sounds`
+
+## Notification sounds
+
+- You can choose separate completion sounds for focus, short break, and long break sessions.
+- Bundled presets are shipped in `Pomodoro/Resources/Sounds`.
+- Additional user sounds can be added by dropping audio files into `~/Library/Application Support/Pomodoro/Sounds`.
 
 ## Requirements
 

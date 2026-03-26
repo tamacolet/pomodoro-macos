@@ -4,6 +4,7 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var settings: PomodoroSettings
     @Environment(\.dismiss) private var dismiss
+    @State private var soundOptions: [SoundManager.SoundOption] = []
 
     var body: some View {
         VStack(spacing: 0) {
@@ -18,6 +19,7 @@ struct SettingsView: View {
                         .foregroundStyle(.secondary.opacity(0.6))
                 }
                 .buttonStyle(.plain)
+                .focusEffectDisabled()
                 .keyboardShortcut(.escape, modifiers: [])
                 .accessibilityLabel("閉じる")
             }
@@ -65,6 +67,34 @@ struct SettingsView: View {
                         ToggleRow(label: "メニューバーに表示", value: $settings.showInMenuBar)
                     }
 
+                    settingsSection(title: "通知音", icon: "speaker.wave.2") {
+                        ForEach(SessionType.allCases, id: \.self) { sessionType in
+                            let suffix = sessionType == .focus ? "完了" : "終了"
+                            SoundPickerRow(
+                                label: "\(sessionType.displayName)\(suffix)",
+                                selection: binding(for: sessionType),
+                                options: soundOptions,
+                                isEnabled: settings.playSoundOnComplete,
+                                onPreview: { SoundManager.shared.playSound(id: settings.completionSoundID(for: sessionType)) }
+                            )
+                        }
+                    }
+
+                    HStack(spacing: 10) {
+                        Button("音源フォルダを開く") {
+                            SoundManager.shared.openUserSoundsDirectory()
+                        }
+                        .buttonStyle(.link)
+
+                        Button("一覧を更新") {
+                            reloadSoundOptions()
+                        }
+                        .buttonStyle(.link)
+
+                        Spacer()
+                    }
+                    .font(.system(size: 12))
+
                     // ショートカット情報
                     settingsSection(title: "キーボードショートカット", icon: "keyboard") {
                         ShortcutRow(label: "開始 / 一時停止", shortcut: "⌘ ↩")
@@ -77,10 +107,13 @@ struct SettingsView: View {
                 .padding(.vertical, 20)
             }
         }
-        .frame(width: 400, height: 520)
+        .frame(width: 440, height: 660)
         .background(
             VisualEffectBackground(material: .popover, blendingMode: .behindWindow)
         )
+        .onAppear {
+            reloadSoundOptions()
+        }
     }
 
     // MARK: - Section Builder
@@ -109,6 +142,27 @@ struct SettingsView: View {
                     .fill(.primary.opacity(0.04))
             )
             .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+    }
+
+    private func binding(for sessionType: SessionType) -> Binding<String> {
+        Binding(
+            get: { settings.completionSoundID(for: sessionType) },
+            set: { settings.setCompletionSoundID($0, for: sessionType) }
+        )
+    }
+
+    private func reloadSoundOptions() {
+        let options = SoundManager.shared.availableSounds()
+        soundOptions = options
+        let validIDs = Set(options.map(\.id))
+        for sessionType in SessionType.allCases {
+            let currentID = settings.completionSoundID(for: sessionType)
+            if !validIDs.contains(currentID) {
+                let fallback = PomodoroSettings.defaultCompletionSoundID(for: sessionType)
+                let nextID = validIDs.contains(fallback) ? fallback : SoundManager.SoundOption.systemDefaultID
+                settings.setCompletionSoundID(nextID, for: sessionType)
+            }
         }
     }
 }
@@ -197,6 +251,47 @@ struct ToggleRow: View {
         }
         .toggleStyle(.switch)
         .controlSize(.small)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+    }
+}
+
+/// セッションごとの通知音選択行
+struct SoundPickerRow: View {
+    let label: String
+    @Binding var selection: String
+    let options: [SoundManager.SoundOption]
+    let isEnabled: Bool
+    let onPreview: () -> Void
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Text(label)
+                .font(.system(size: 13))
+                .foregroundStyle(.primary)
+
+            Spacer(minLength: 12)
+
+            Picker(label, selection: $selection) {
+                ForEach(options) { option in
+                    Text("\(option.displayName) (\(option.sourceLabel))")
+                        .tag(option.id)
+                }
+            }
+            .labelsHidden()
+            .pickerStyle(.menu)
+            .frame(width: 210, alignment: .trailing)
+            .disabled(!isEnabled)
+
+            Button(action: onPreview) {
+                Image(systemName: "play.fill")
+                    .font(.system(size: 11, weight: .semibold))
+                    .frame(width: 24, height: 24)
+            }
+            .buttonStyle(.borderless)
+            .disabled(!isEnabled || selection == SoundManager.SoundOption.noneID)
+            .help("この音を試聴")
+        }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
     }

@@ -1,0 +1,23 @@
+Preset sounds bundled with the app:
+
+- achievement-bell.mp3
+  Source: Mixkit "Achievement bell" (SFX ID 600)
+  URL: https://mixkit.co/free-sound-effects/bell/
+
+- bell-notification.mp3
+  Source: Mixkit "Bell notification" (SFX ID 933)
+  URL: https://mixkit.co/free-sound-effects/notification/
+
+- happy-bells-notification.mp3
+  Source: Mixkit "Happy bells notification" (SFX ID 937)
+  URL: https://mixkit.co/free-sound-effects/notification/
+
+- long-pop.mp3
+  Source: Mixkit "Long pop" (SFX ID 2358)
+  URL: https://mixkit.co/free-sound-effects/alerts/
+
+- software-interface-start.mp3
+  Source: Mixkit "Software interface start" (SFX ID 2574)
+  URL: https://mixkit.co/free-sound-effects/alerts/
+
+These files were downloaded from Mixkit's free sound effects catalog.
